@@ -9,14 +9,12 @@ Tree::Tree(int MaxDepth,int trainFeatureNumPerNode,int minLeafSample,float minIn
 	_nodeNum=static_cast<int>(pow(2.0,_MaxDepth)-1);
 	_cartreeArray=new Node*[_nodeNum];
 	_isRegression=isRegression;
-	_samples=NULL;
 	for(int i=0;i<_nodeNum;++i)
 	{_cartreeArray[i]=NULL;}
 }
 
 Tree::~Tree()
 {
-	//printf("destroy Tree...\n");
 	if(_cartreeArray!=NULL)
 	{
 		for(int i=0;i<_nodeNum;++i)
@@ -29,11 +27,6 @@ Tree::~Tree()
 		}
 		delete[] _cartreeArray;
 		_cartreeArray=NULL;
-	}
-	if(_samples!=NULL)
-	{
-		delete _samples;
-		_samples=NULL;
 	}
 }
 
@@ -59,11 +52,10 @@ ClasTree::~ClasTree()
 {}
 void ClasTree::train(Sample*sample)
 {
-	_samples=sample;//all features but not all samples
 	//initialize root node
 	//random generate feature index
 	int*_featureIndex=new int[_trainFeatureNumPerNode];
-	Sample*nodeSample=new Sample(_samples,0,_samples->getSelectedSampleNum()-1);
+    Sample*nodeSample=new Sample(sample,0,sample->getSelectedSampleNum()-1);
 	_cartreeArray[0]=new ClasNode();
 	_cartreeArray[0]->_samples=nodeSample;
 	//calculate the probablity and gini
@@ -91,14 +83,15 @@ void ClasTree::train(Sample*sample)
 			_cartreeArray[i]->createLeaf();
 			continue;
 		}
-		_cartreeArray[i]->_samples->randomSelectFeature
-		(_featureIndex,_samples->getFeatureNum(),_trainFeatureNumPerNode);
+        _cartreeArray[i]->_samples->randomSelectFeature
+        (_featureIndex,sample->getFeatureNum(),_trainFeatureNumPerNode);
 		//else calculate the information gain
 		_cartreeArray[i]->calculateInfoGain(_cartreeArray,i,_minInfoGain);
 		_cartreeArray[i]->_samples->releaseSampleIndex();
 	}
 	delete[] _featureIndex;
 	_featureIndex=NULL;
+    delete nodeSample;
 }
 
 void ClasTree::createNode(int id,int featureIndex,float threshold)
@@ -125,11 +118,10 @@ RegrTree::~RegrTree()
 {}
 void RegrTree::train(Sample*sample)
 {
-	_samples=sample;//all features but not all samples
 	//initialize root node
 	//random generate feature index
 	int*_featureIndex=new int[_trainFeatureNumPerNode];
-	Sample*nodeSample=new Sample(_samples,0,_samples->getSelectedSampleNum()-1);
+	Sample*nodeSample=new Sample(sample,0,sample->getSelectedSampleNum()-1);
 	_cartreeArray[0]=new RegrNode();
 	_cartreeArray[0]->_samples=nodeSample;
 	//calculate the mean and variance
@@ -158,13 +150,14 @@ void RegrTree::train(Sample*sample)
 			continue;
 		}
 		_cartreeArray[i]->_samples->randomSelectFeature
-		(_featureIndex,_samples->getFeatureNum(),_trainFeatureNumPerNode);
+		(_featureIndex,sample->getFeatureNum(),_trainFeatureNumPerNode);
 		//else calculate the information gain
 		_cartreeArray[i]->calculateInfoGain(_cartreeArray,i,_minInfoGain);
 		_cartreeArray[i]->_samples->releaseSampleIndex();
 	}
 	delete[] _featureIndex;
 	_featureIndex=NULL;
+    delete nodeSample;
 }
 
 void RegrTree::createNode(int id,int featureIndex,float threshold)

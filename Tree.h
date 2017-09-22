@@ -41,7 +41,7 @@ protected:
 	int _minLeafSample;
 	int _trainFeatureNumPerNode;
 	float _minInfoGain;
-	Sample*_samples;//all samples used while training the tree
+//	Sample*_samples;//all samples used while training the tree
 	Node** _cartreeArray;  //utilize a node array to store the tree,
 						   //every node is a split or leaf node
 };

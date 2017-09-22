@@ -98,7 +98,7 @@ void RandomForest::train(float**trainset,float*labels,int SampleNum,int featureN
 	}
 	//this object hold the whole trainset&labels
 	_trainSample=new Sample(trainset,labels,_classNum,_trainSampleNum,_featureNum);
-	srand( time(NULL) );
+	srand(static_cast<unsigned int>(time(NULL)));
 	int*_sampleIndex=new int[_trainSampleNum];
 	//start to train every tree in the forest
 	for(int i=0;i<_treeNum;++i)
@@ -108,6 +108,7 @@ void RandomForest::train(float**trainset,float*labels,int SampleNum,int featureN
 		Sample*sample=new Sample(_trainSample);
 		sample->randomSelectSample(_sampleIndex,_trainSampleNum,_trainSampleNum);
 		_forest[i]->train(sample);
+        delete sample;
 	}
 	delete[] _sampleIndex;
 	_sampleIndex=NULL;

@@ -11,12 +11,6 @@ Node::Node()
 
 Node::~Node()
 {
-	//printf("destroy node...\n");
-	if(_samples!=NULL)
-	{
-		delete _samples;
-		_samples=NULL;
-	}
 }
 
 void Node::sortIndex(int featureId)
@@ -135,7 +129,7 @@ void ClasNode::calculateInfoGain(Node**nodeArray,int id,float minInfoGain)
 			fMaxProbsLeft[j]=0;
 			fMaxProbsRight[j]=0;
 		}
-		//已按照当前特征排序好样本
+        //sort samples by current feature
 		sortIndex(featureId[i]);
 		//initialize the probsLeft&probsRight
 		for(k=0;k<classNum;++k)
@@ -151,7 +145,7 @@ void ClasNode::calculateInfoGain(Node**nodeArray,int id,float minInfoGain)
 			infoGain=0;
 			probsLeft[static_cast<int>(labels[sampleId[j]])]++;
 			probsRight[static_cast<int>(labels[sampleId[j]])]--;
-			//前后两个样本差距太小，不做计算
+            //do not do calculation if the nearby samples' feature are too similar(<0.000001)
 			if((data[sampleId[j+1]][featureId[i]]-data[sampleId[j]][featureId[i]])<0.000001)
 			{continue;}
 			for(k=0;k<classNum;++k)
@@ -166,7 +160,6 @@ void ClasNode::calculateInfoGain(Node**nodeArray,int id,float minInfoGain)
 				giniRight+=(p*p);
 			}
 			giniRight=1-giniRight;
-			//计算当前特征、当前阈值下的信息增益，并判断是否需要更新
 			float leftRatio=(j+1.0)/sampleNum;
 			float rightRatio=(sampleNum-j-1.0)/sampleNum;
 			infoGain=_gini-leftRatio*giniLeft-rightRatio*giniRight;

@@ -37,7 +37,6 @@ Sample::Sample(Sample* samples,int start,int end)
 	_selectedFeatureNum=samples->getSelectedFeatureNum();
 	_sampleIndex=new int[_selectedSampleNum];
 	memcpy(_sampleIndex,samples->getSampleIndex()+start,sizeof(float)*_selectedSampleNum);
-	//_featureIndex=samples->getFeatureIndex();
 }
 
 Sample::~Sample()

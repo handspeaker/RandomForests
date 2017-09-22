@@ -31,19 +31,19 @@ int main(int argc, const char * argv[])
 //		"/Users/xinling/PycharmProjects/MNIST_data/t10k-labels-idx1-ubyte");
     
     //2. create RandomForest class and set some parameters
-	RandomForest randomForest(500,10,10,0);
+	RandomForest randomForest(100,10,10,0);
     
 	//3. start to train RandomForest
-//	randomForest.train(trainset,trainlabels,TRAIN_NUM,FEATURE,10,true,56);//NUMBER_OF_CLASSES
-    randomForest.train(trainset,trainlabels,TRAIN_NUM,FEATURE,10,false);
+//	randomForest.train(trainset,trainlabels,TRAIN_NUM,FEATURE,10,true,56);//regression
+    randomForest.train(trainset,trainlabels,TRAIN_NUM,FEATURE,10,false);//classification
 	
-    //read and write model to file
+    //restore model from file and save model to file
 //	randomForest.saveModel("E:\\RandomForest2.Model");
 //	randomForest.readModel("E:\\RandomForest.Model");
 //	RandomForest randomForest("E:\\RandomForest2.Model");
     
     //predict single sample
-//    float resopnse;
+//  float resopnse;
 //	randomForest.predict(testset[0],resopnse);
     
     //predict a list of samples

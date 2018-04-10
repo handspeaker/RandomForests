@@ -69,7 +69,10 @@ void Sample::randomSelectFeature(int*featureIndex,int featureNum,int selectedFea
 	//sampling feature without replacement
 	for(i=0,j=featureNum-selectedFeatureNum;j<featureNum;++j,++i)
 	{
-		index=rand()%j;
+        if(j == 0)
+            index = 0;
+        else
+            index = rand()%j;
 		bool flag=false;
 		for(k=0;k<i;++k)
 		{

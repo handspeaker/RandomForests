@@ -21,7 +21,7 @@ public:
 	/*************************************************************
 	*treeNum:	the number of trees in this forest
 	*maxDepth:	the max Depth of one single tree
-	*minLeafSample:terminate criterion,the min samples in a leaf              
+	*minLeafSample:terminate criterion,the min samples in a leaf
 	*minInfoGain:terminate criterion,the min information
 	*            gain in a node if it can be splitted
 	**************************************************************/
@@ -29,7 +29,7 @@ public:
 	RandomForest(const char*modelPath);
 	~RandomForest();
 	/*************************************************************
-	*trainset:	the trainset,every row is a sample,every column is 
+	*trainset:	the trainset,every row is a sample,every column is
 	*a feature,the total size is SampleNum*featureNum
 	*labels:the labels or regression values of the trainset,
 	*the total size is SampleNum
@@ -62,17 +62,18 @@ public:
 	*path: the path to read the model
 	*************************************************/
 	void readModel(const char*path);
+	float nodeCount();
 private:
 	int _trainSampleNum;  //the total training sample number
 	int _testSampleNum;  //the total testing sample number
-	int _featureNum;  //the feature dimension 
+	int _featureNum;  //the feature dimension
 	int _trainFeatureNumPerNode;  //the feature number used in a node while training
 	int _treeNum;  //the number of trees
 	int _maxDepth;  //the max depth which a tree can reach
 	int _classNum;  //the number of classes(if regresssion,set it to 1)
 	bool _isRegression;  //if it is a regression problem
-	int _minLeafSample;  //terminate condition£ºthe min samples in a node
-	float _minInfoGain;  //terminate condition£ºthe min information gain in a node
+	int _minLeafSample;  //terminate conditionï¿½ï¿½the min samples in a node
+	float _minInfoGain;  //terminate conditionï¿½ï¿½the min information gain in a node
 	Tree**_forest;//to store every tree(classification tree or regression tree)
 	Sample*_trainSample;  //hold the whole trainset and some other infomation
 };

@@ -11,7 +11,7 @@ RandomForest::RandomForest(int treeNum,int maxDepth,int minLeafSample,float minI
 	printf("max depth of a single tree:%d\n",_maxDepth);
 	printf("the minimum samples in a leaf:%d\n",_minLeafSample);
 	printf("the minimum information gain:%f\n",_minInfoGain);
-    
+
 	_forest=new Tree*[_treeNum];
 	for(int i=0;i<_treeNum;++i)
 	{_forest[i]=NULL;}
@@ -126,7 +126,7 @@ void RandomForest::predict(float*data,float&response)
 	{
 		Result r;
 		r.label=0;
-		r.prob=0;//Result 
+		r.prob=0;//Result
 		r=_forest[i]->predict(data);
 		result[static_cast<int>(r.label)]+=r.prob;
 	}
@@ -156,6 +156,25 @@ void RandomForest::predict(float**testset,int SampleNum,float*responses)
 	{
 		predict(testset[i],responses[i]);
 	}
+}
+
+float RandomForest::nodeCount () {
+    int nodeNum=static_cast<int>(pow(2.0,_maxDepth)-1);
+    int isLeaf=0;
+    int count = 0;
+    for(int i=0;i<_treeNum;++i)
+    {
+        Node**arr=_forest[i]->getTreeArray();
+        for(int j=0;j<nodeNum;++j)
+        {
+            if(arr[j] != NULL)
+            {
+                count++;
+            }
+        }
+    }
+
+	return count;
 }
 
 void RandomForest::saveModel(const char*path)
